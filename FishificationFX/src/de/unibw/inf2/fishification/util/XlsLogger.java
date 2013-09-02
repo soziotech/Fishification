@@ -16,7 +16,7 @@
  *
  *  Project: FishificationFX
  *   Author: Martin Burkhard
- *     Date: 9/2/13 8:31 AM
+ *     Date: 9/3/13 12:05 AM
  */
 
 package de.unibw.inf2.fishification.util;
@@ -26,7 +26,9 @@ import jxl.WorkbookSettings;
 import jxl.read.biff.BiffException;
 import jxl.write.*;
 import jxl.write.Number;
-import org.sociotech.unui.javafx.engine2d.util.Log;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.MarkerManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +51,7 @@ public class XlsLogger {
     private static final String LOCALE_COUNTRY  = "DE";
     private static final int    SHEET           = 0;
     private static final int    HEADER_ROW      = 0;
-    private static final String TAG             = "XlsLogger";
+    private final        Logger m_log           = LogManager.getLogger();
 
     public XlsLogger(File outputDirectory, String fileName, String sheetName, String applicationVersion) {
         m_outputDirectory = outputDirectory;
@@ -62,10 +64,9 @@ public class XlsLogger {
         String machineName = "";
         try {
             machineName = InetAddress.getLocalHost().getHostName();
-            Log.w(TAG, "Logger directory could not be created.");
 
         } catch (UnknownHostException e) {
-            Log.w(TAG, "Error getting local host name.");
+            m_log.warn("Error getting local host name.");
         }
         writeData(machineName, xlsLoggerEntry);
     }
@@ -102,7 +103,7 @@ public class XlsLogger {
             workbook.close();
 
         } catch (Exception e) {
-            Log.e(TAG, "Error while writing to XLS file.", e);
+            m_log.error(MarkerManager.getMarker("EXCEPTION"), "Error while writing to XLS file.", e);
         }
     }
 
@@ -116,8 +117,7 @@ public class XlsLogger {
         if (!outputDir.exists()) {
             boolean mkdirsSuccess = outputDirectory.mkdirs();
             if (!mkdirsSuccess) {
-                Log.w(TAG, "Logger directory could not be created.");
-                return null;
+                m_log.warn("Logger directory could not be created.");
             }
         }
 

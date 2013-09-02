@@ -16,7 +16,7 @@
  *
  *  Project: FishificationFX
  *   Author: Martin Burkhard
- *     Date: 9/2/13 12:48 AM
+ *     Date: 9/2/13 10:54 PM
  */
 
 package org.sociotech.unui.javafx.engine2d.util;
@@ -24,6 +24,8 @@ package org.sociotech.unui.javafx.engine2d.util;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.image.WritableImage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -32,7 +34,7 @@ import java.io.IOException;
 
 public final class ScreenshotHelper {
 
-    private static final String TAG = ScreenshotHelper.class.getName();
+    private final static Logger m_log = LogManager.getLogger();
 
     private ScreenshotHelper() {
 
@@ -46,7 +48,7 @@ public final class ScreenshotHelper {
         if (!outputDirectory.exists()) {
             boolean mkdirsSuccess = outputDirectory.mkdirs();
             if (!mkdirsSuccess) {
-                Log.w("ScreenshotHelper", "Screenshot directory could not be created.");
+                m_log.warn("Screenshot directory could not be created.");
                 return;
             }
         }
@@ -66,7 +68,7 @@ public final class ScreenshotHelper {
             counter++;
         }
 
-        Log.i(TAG, String.format("Taking screenshot: %s", outputFile));
+        m_log.info(String.format("Taking screenshot: %s", outputFile));
 
         // Store BufferedImage
         ImageIO.write(bufferedImage, "png", outputFile);

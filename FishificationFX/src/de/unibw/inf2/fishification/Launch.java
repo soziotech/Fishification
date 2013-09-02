@@ -16,7 +16,7 @@
  *
  *  Project: FishificationFX
  *   Author: Martin Burkhard
- *     Date: 9/2/13 12:48 AM
+ *     Date: 9/2/13 11:25 PM
  */
 
 package de.unibw.inf2.fishification;
@@ -29,8 +29,10 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.MarkerManager;
 import org.sociotech.unui.javafx.engine2d.AbstractWorld;
-import org.sociotech.unui.javafx.engine2d.util.Log;
 
 /**
  * JavaFX main entry point.
@@ -42,7 +44,7 @@ public final class Launch extends Application {
     private AbstractWorld m_world;
     private boolean m_serverMode = false;
 
-    private static final String TAG = "Launch";
+    private final Logger m_log = LogManager.getLogger();
 
     public static void main(String[] args) {
         launch(args);
@@ -51,7 +53,7 @@ public final class Launch extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        Log.i(TAG, "Fishification launched.");
+        m_log.info("Fishification launched.");
 
         // Store JavaFx stage for thread-safe access
         StageSingleton.injectStage(primaryStage);
@@ -61,7 +63,7 @@ public final class Launch extends Application {
         String serverEndpoint = "fishworld";
         try {
             // Load configuration
-            PropertiesConfiguration config = new PropertiesConfiguration("resources/app.properties");
+            PropertiesConfiguration config = new PropertiesConfiguration("app.properties");
 
             // Assign properties
             m_serverMode = config.getBoolean("fishification.server.active");
@@ -70,13 +72,13 @@ public final class Launch extends Application {
             serverEndpoint = config.getString("fishification.server.endpoint");
 
         } catch (ConfigurationException e) {
-            Log.w(TAG, "Error reading configuration.", e);
+            m_log.warn(MarkerManager.getMarker("EXCEPTION"), "Error reading configuration.", e);
         }
 
         // Init Server ?
         if (!m_serverMode) {
 
-            Log.i(TAG, String.format("Starting in client mode with fullscreen: '%b'", fullScreenMode));
+            m_log.info(String.format("Starting in client mode with fullscreen: '%b'", fullScreenMode));
 
             // Create World
             m_world = new FishWorld();
@@ -91,7 +93,7 @@ public final class Launch extends Application {
         } else {
 
             // Launch Server
-            Log.i(TAG, String.format("Starting server with port: '%d' endpoint: '%s' fullscreen: '%b'", serverPort,
+            m_log.info(String.format("Starting server with port: '%d' endpoint: '%s' fullscreen: '%b'", serverPort,
                                      serverEndpoint, fullScreenMode));
 
             try {
@@ -99,7 +101,7 @@ public final class Launch extends Application {
                 FishificationServer.launch(serverPort, serverEndpoint);
 
             } catch (Exception e) {
-                Log.e(TAG, "Error launching the server. Exit application.", e);
+                m_log.error(MarkerManager.getMarker("EXCEPTION"), "Error launching the server. Exit application.", e);
                 Platform.exit();
             }
         }
@@ -117,7 +119,7 @@ public final class Launch extends Application {
     @Override
     public void stop() {
 
-        Log.i(TAG, "Fishification shutting down ...");
+        m_log.info("Fishification shutting down ...");
 
         // Tidy up
         if (!m_serverMode) {
@@ -125,7 +127,7 @@ public final class Launch extends Application {
         } else {
             FishificationServer.shutdown();
         }
-        Log.i(TAG, "Fishification exit.");
+        m_log.info("Fishification exit.");
         Platform.exit();
     }
 

@@ -16,7 +16,7 @@
  *
  *  Project: FishificationFX
  *   Author: Martin Burkhard
- *     Date: 9/2/13 10:43 AM
+ *     Date: 9/2/13 11:26 PM
  */
 
 package org.sociotech.unui.javafx.engine2d;
@@ -39,9 +39,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.MarkerManager;
 import org.sociotech.unui.javafx.engine2d.entities.Entity;
 import org.sociotech.unui.javafx.engine2d.entities.EntityManager;
-import org.sociotech.unui.javafx.engine2d.util.Log;
 import org.sociotech.unui.javafx.engine2d.util.ScreenshotHelper;
 
 import java.io.IOException;
@@ -88,7 +90,7 @@ public abstract class AbstractWorld {
     private double m_width  = 0.0;
     private double m_height = 0.0;
 
-    private static final String TAG = "World";
+    private final Logger m_log = LogManager.getLogger();
 
     protected AbstractWorld(String title, Stage worldStage) {
         m_worldStage = worldStage;
@@ -114,7 +116,7 @@ public abstract class AbstractWorld {
             loadConfiguration();
 
         } catch (ConfigurationException e) {
-            Log.w("World", "Error reading configuration file 'app.properties' from resources.", e);
+            m_log.warn(MarkerManager.getMarker("EXCEPTION"), "Error reading configuration file 'app.properties' from resources.", e);
             return;
         }
 
@@ -139,7 +141,7 @@ public abstract class AbstractWorld {
 
             onLoadConfiguration(m_config);
         } catch (Exception e) {
-            Log.e(TAG, "Error loading configuration.", e);
+            m_log.error(MarkerManager.getMarker("EXCEPTION"), "Error loading configuration.", e);
         }
     }
 
@@ -319,7 +321,7 @@ public abstract class AbstractWorld {
         try {
             ScreenshotHelper.takeScreenshot(m_worldCanvas, path, fileName);
         } catch (IOException e) {
-            Log.e("World", "Error creating screenshot.", e);
+            m_log.error(MarkerManager.getMarker("EXCEPTION"), "Error creating screenshot.", e);
         }
     }
 

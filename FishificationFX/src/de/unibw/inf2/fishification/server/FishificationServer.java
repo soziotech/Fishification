@@ -16,7 +16,7 @@
  *
  *  Project: FishificationFX
  *   Author: Martin Burkhard
- *     Date: 9/2/13 12:48 AM
+ *     Date: 9/2/13 11:24 PM
  */
 
 package de.unibw.inf2.fishification.server;
@@ -28,12 +28,14 @@ import com.google.inject.servlet.GuiceFilter;
 import com.yammer.metrics.Metrics;
 import com.yammer.metrics.core.MetricsRegistry;
 import de.unibw.inf2.fishification.server.fishworld.FishWorldModule;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.MarkerManager;
 import org.eclipse.jetty.server.DispatcherType;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.sociotech.unui.javafx.engine2d.util.Log;
 
 import java.util.EnumSet;
 
@@ -45,6 +47,7 @@ import java.util.EnumSet;
 public final class FishificationServer {
 
     private static Server s_server;
+    private static final Logger m_log = LogManager.getLogger();
 
     private FishificationServer() {
 
@@ -97,7 +100,7 @@ public final class FishificationServer {
             s_server.start();
 
         } catch (Exception e) {
-            Log.e("FishificationServer", "Error while starting server.", e);
+            m_log.error(MarkerManager.getMarker("EXCEPTION"), "Error while starting server.", e);
         }
     }
 
@@ -110,7 +113,7 @@ public final class FishificationServer {
         try {
             s_server.stop();
         } catch (Exception e) {
-            Log.e("FishificationServer", "Error while stopping server.", e);
+            m_log.error(MarkerManager.getMarker("EXCEPTION"), "Error while stopping server.", e);
         }
     }
 

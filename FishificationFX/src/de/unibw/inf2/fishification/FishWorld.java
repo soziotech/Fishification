@@ -16,7 +16,7 @@
  *
  *  Project: FishificationFX
  *   Author: Martin Burkhard
- *     Date: 9/2/13 11:00 AM
+ *     Date: 9/3/13 12:09 AM
  */
 
 package de.unibw.inf2.fishification;
@@ -38,10 +38,12 @@ import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.RadialGradientBuilder;
 import javafx.scene.paint.Stop;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.MarkerManager;
 import org.sociotech.unui.javafx.engine2d.AbstractWorld;
 import org.sociotech.unui.javafx.engine2d.entities.Entity;
 import org.sociotech.unui.javafx.engine2d.entities.StaticEntity;
-import org.sociotech.unui.javafx.engine2d.util.Log;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -101,8 +103,8 @@ public class FishWorld extends AbstractWorld implements IFishWorld {
     // Button Manager
     private ButtonManager m_buttonManager = null;
 
-    private static final int SCREENSHOT_DELAY = 500;
-    private static final String TAG = "FishWorld";
+    private static final int    SCREENSHOT_DELAY = 500;
+    private final        Logger m_log            = LogManager.getLogger();
 
     @Inject
     public FishWorld() {
@@ -240,14 +242,14 @@ public class FishWorld extends AbstractWorld implements IFishWorld {
 
     public void loadFishContents() {
 
-        Log.i(TAG, "Loading contents...");
+        m_log.info("Loading contents...");
 
         // Asynchronously adds contents
         m_contentLoader.getContentItems(s_amountOfFishes);
 
         // Christmas Time =)
         if (getConfiguration().getBoolean("fishification.christmasfish.show")) {
-            Log.i(TAG, "Added Christmas fish.");
+            m_log.info("Added Christmas fish.");
             getEntityManager().addEntity(EntityFactory.createChristmasFish(this));
             m_fishCounter++;
         }
@@ -292,7 +294,7 @@ public class FishWorld extends AbstractWorld implements IFishWorld {
             m_xlsLogger = new XlsLogger(outputDirectory, s_xlsLoggerOutputFileName, s_xlsLoggerInitialSheetName,
                                         applicationVersion);
         } catch (Exception e) {
-            Log.e("FishEntity", "Error while opening XLS logger.", e);
+            m_log.error(MarkerManager.getMarker("EXCEPTION"), "Error while opening XLS logger.", e);
             m_xlsLogger = null;
         }
     }
@@ -327,7 +329,7 @@ public class FishWorld extends AbstractWorld implements IFishWorld {
      */
     public void clearAll() {
 
-        Log.d(TAG, "Removing all fish entities, buttons and Persons.");
+        m_log.debug("Removing all fish entities, buttons and Persons.");
 
         m_contentLoader.stopContentLoader();
 
@@ -387,7 +389,7 @@ public class FishWorld extends AbstractWorld implements IFishWorld {
                 try {
                     Thread.sleep(SCREENSHOT_DELAY);
                 } catch (InterruptedException e) {
-                    Log.w("PauseButton", "Screenshot sleep interrupted.");
+                    m_log.warn("Screenshot sleep interrupted.");
                 }
 
                 // Second, Screenshot in main thread

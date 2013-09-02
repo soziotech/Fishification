@@ -16,7 +16,7 @@
  *
  *  Project: FishificationFX
  *   Author: Martin Burkhard
- *     Date: 9/2/13 11:11 AM
+ *     Date: 9/2/13 11:43 PM
  */
 
 package de.unibw.inf2.fishification.data;
@@ -24,7 +24,8 @@ package de.unibw.inf2.fishification.data;
 import de.unibw.inf2.fishification.FishWorld;
 import de.unibw.inf2.fishification.entities.EntityFactory;
 import de.unibw.inf2.fishification.entities.FishEntity;
-import org.sociotech.unui.javafx.engine2d.util.Log;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 
@@ -38,10 +39,10 @@ class ContentLoadRunnable implements Runnable {
     private       RunnableState m_state             = RunnableState.INIT;
     private final Object        m_runnableStateSync = new Object();
 
-    private static final int    LOAD_SLEEP   = 2500;
-    final static         int    UPDATE_DELAY = 1000;
+    private static final int    LOAD_SLEEP         = 2500;
+    final static         int    UPDATE_DELAY       = 1000;
     final static         int    UPDATE_DELAY_SLEEP = 500;
-    private static final String TAG          = "ContentLoadRunnable";
+    private static final Logger m_log              = LogManager.getLogger();
 
     public ContentLoadRunnable(final int amount, final ContentCollectRunnable collector, final FishWorld fishWorld) {
 
@@ -56,6 +57,8 @@ class ContentLoadRunnable implements Runnable {
         if (m_amount <= 0) {
             return;
         }
+
+        m_log.debug("ContentLoad thread started.");
 
         setState(RunnableState.RUNNING);
 
@@ -72,7 +75,7 @@ class ContentLoadRunnable implements Runnable {
             RunnableState state = getState();
             while (contentItem == null && (state == RunnableState.RUNNING || state == RunnableState.PAUSED)) {
 
-                Log.d(TAG, "Waiting for collector ...");
+                m_log.debug("Waiting for collector ...");
 
                 try {
                     // Wait
@@ -84,7 +87,7 @@ class ContentLoadRunnable implements Runnable {
                     state = m_collector.getState();
 
                 } catch (InterruptedException e) {
-                    Log.i(TAG, "Thread sleep interrupted.");
+                    m_log.debug("Thread sleep interrupted while waiting for collector.");
                     return;
                 }
             }
@@ -93,11 +96,11 @@ class ContentLoadRunnable implements Runnable {
             while (getState() == RunnableState.PAUSED) {
                 try {
                     // Wait
-                    Log.d(TAG, "Pause ...");
+                    m_log.debug("Pause ...");
                     Thread.sleep(LOAD_SLEEP);
 
                 } catch (InterruptedException e) {
-                    Log.i(TAG, "Thread sleep interrupted duringe pause.");
+                    m_log.debug("Thread sleep interrupted duringe pause.");
                     return;
                 }
             }
@@ -106,18 +109,18 @@ class ContentLoadRunnable implements Runnable {
             while(new Date().getTime() - m_lastUpdate < UPDATE_DELAY) {
                 try {
                     // Wait
-                    Log.d(TAG, "Update delay. Waiting ...");
+                    m_log.debug("Update delay. Waiting ...");
                     Thread.sleep(UPDATE_DELAY_SLEEP);
 
                 } catch (InterruptedException e) {
-                    Log.i(TAG, "Thread sleep interrupted duringe update delay.");
+                    m_log.debug("Thread sleep interrupted duringe update delay.");
                     return;
                 }
             }
 
             // Add Content Item to FishWorld
             if (contentItem != null) {
-                Log.d(TAG, String.format("Loaded ContentItem #%d of %d.", i + 1, m_amount));
+                m_log.debug(String.format("Loaded ContentItem #%d of %d.", i + 1, m_amount));
 
                 FishEntity fishEntity = EntityFactory.createFishEntity(contentItem, m_fishWorld);
                 m_fishWorld.addFishEntity(fishEntity);
@@ -127,7 +130,8 @@ class ContentLoadRunnable implements Runnable {
         }
 
         m_state = RunnableState.FINISHED;
-        Log.i(TAG, "ContentLoader thread ended.");
+        m_log.debug("ContentLoad thread ended.");
+        m_log.info(String.format("The request for #%d contents was successfully processed.", m_amount));
     }
 
     RunnableState getState() {

@@ -17,33 +17,32 @@
   ~
   ~  Project: FishificationFX
   ~   Author: Martin Burkhard
-  ~     Date: 9/2/13 12:48 AM
+  ~     Date: 9/3/13 12:02 AM
   -->
 
-<configuration status="trace" name="FishificationFx" packages="org.sociotech">
+<configuration status="WARN" name="FishificationFx" packages="">
     <appenders>
-        <FastRollingFile name="FastRollingFile" fileName="logs/fishification.log"
+        <RollingFile name="RollingFileAppender" fileName="logs/fishification.log"
                          filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
-            <PatternLayout>
-                <pattern>%d %p %m %ex%n</pattern>
-            </PatternLayout>
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d %p [%c{1.}] %marker %m %ex%n" />
             <Policies>
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="250 MB"/>
             </Policies>
-        </FastRollingFile>
-    </appenders>
-    <appenders>
+        </RollingFile>
         <Console name="STDOUT" target="SYSTEM_OUT">
-            <PatternLayout>
-                <pattern>%d %p %m %ex%n</pattern>
-            </PatternLayout>
+            <filters>
+                <MarkerFilter marker="EXCEPTION" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </filters>
+            <PatternLayout pattern="[%p] %m%n" />
         </Console>
     </appenders>
     <loggers>
-        <root level="trace">
+        <root level="DEBUG">
             <appender-ref ref="STDOUT"/>
-            <appender-ref ref="FastRollingFile"/>
+            <appender-ref ref="RollingFileAppender" />
         </root>
     </loggers>
 </configuration>

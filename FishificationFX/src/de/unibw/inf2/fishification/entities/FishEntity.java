@@ -16,7 +16,7 @@
  *
  *  Project: FishificationFX
  *   Author: Martin Burkhard
- *     Date: 9/2/13 8:49 AM
+ *     Date: 9/2/13 11:24 PM
  */
 
 package de.unibw.inf2.fishification.entities;
@@ -50,11 +50,13 @@ import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.MarkerManager;
 import org.sociotech.unui.javafx.engine2d.AbstractWorld;
 import org.sociotech.unui.javafx.engine2d.entities.Entity;
 import org.sociotech.unui.javafx.engine2d.entities.EntityState;
 import org.sociotech.unui.javafx.engine2d.sprites.Sprite;
-import org.sociotech.unui.javafx.engine2d.util.Log;
 import org.sociotech.unui.javafx.engine2d.util.RandomFactory;
 
 import java.util.Date;
@@ -123,7 +125,8 @@ public class FishEntity extends Entity {
     private static final int             WAVE_HEIGHT       = 100;
     private static final double          WAVE_FREQUENCY    = 50.0;
 
-    private FishWorld m_fishWorld = null;
+    private                            FishWorld m_fishWorld = null;
+    private static final Logger    m_log       = LogManager.getLogger();
 
     public FishEntity(ContentItem content, Sprite sprite, double posX, double posY) {
 
@@ -502,7 +505,7 @@ public class FishEntity extends Entity {
                                        pos.getY(), intention, interaction, absolutePosition.getX(),
                                        absolutePosition.getY(), m_fishContent));
         } catch (Exception e) {
-            Log.e("FishEntity", "Error while closing XLS logger.", e);
+            m_log.error(MarkerManager.getMarker("EXCEPTION"), "Error while closing XLS logger.", e);
         }
     }
 
