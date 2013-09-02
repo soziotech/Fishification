@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ pom.xml
+  ~
+  ~ Copyright (c) 2013 Martin Burkhard.
+  ~ CSCM Cooperation Systems Center Munich, Institute for Software Technology.
+  ~ Bundeswehr University Munich. All rights reserved.
+  ~
+  ~ This program is made available under the terms of the
+  ~ Eclipse Public License v1.0 which accompanies this distribution,
+  ~ and is available at <http://www.eclipse.org/legal/epl-v10.html>.
+  ~
+  ~ The accompanying materials are made available under the terms
+  ~ of Creative Commons Attribution-ShareAlike 3.0 Unported License.
+  ~ You should have received a copy of the license along with this
+  ~ work.  If not, see <http://creativecommons.org/licenses/by-sa/3.0/>.
+  ~
+  ~  Project: FishificationFX
+  ~   Author: Martin Burkhard
+  ~     Date: 8/30/13 7:46 PM
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+ http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.sociotech</groupId>
+    <artifactId>org.sociotech.fishification</artifactId>
+    <version>0.2</version>
+    <packaging>apk</packaging>
+    <name>FishificationApp</name>
+    <licenses>
+        <license>
+            <name>Eclipse Public License (EPL)</name>
+            <url>http://www.eclipse.org/legal/epl-v10.html</url>
+        </license>
+    </licenses>
+    <organization>
+        <name>Bundeswehr University Munich</name>
+        <url>http://www.unibw.de</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>MB</id>
+            <name>Martin Burkhard</name>
+            <email>martin.burkhard@unibw.de</email>
+            <url>http://www.kooperationssysteme.de/personen/burkhard</url>
+            <organization>CSCM Cooperation Systems Center Munich</organization>
+            <organizationUrl>http://www.kooperationssysteme.de</organizationUrl>
+            <roles>
+                <role>code</role>
+                <role>co-author</role>
+            </roles>
+        </developer>
+    </developers>
+    <contributors>
+        <contributor>
+            <name>Michael Koch</name>
+            <email>michael.koch@unibw.de</email>
+            <organization>CSCM Cooperation Systems Center Munich</organization>
+            <roles>
+                <role>co-author</role>
+                <role>manager</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Peter Lachenmaier</name>
+            <email>peter.lachenmaier@unibw.de</email>
+            <organization>CSCM Cooperation Systems Center Munich</organization>
+            <roles>
+                <role>co-author</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Sonja Maier</name>
+            <email>sonja.maier@unibw.de</email>
+            <organization>Bundeswehr University Munich</organization>
+            <roles>
+                <role>co-author</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Andrea Nutsi</name>
+            <email>andrea.nutsi@unibw.de</email>
+            <organization>CSCM Cooperation Systems Center Munich</organization>
+            <roles>
+                <role>co-author</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Julia Paland</name>
+            <roles>
+                <role>fish designs</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>Harald Striker</name>
+            <roles>
+                <role>fish designs</role>
+            </roles>
+        </contributor>
+    </contributors>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+            <version>4.0.1.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>support-v4</artifactId>
+            <version>r6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.actionbarsherlock</groupId>
+            <artifactId>actionbarsherlock</artifactId>
+            <version>4.2.0</version>
+            <type>apklib</type>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <sourceDirectory>src</sourceDirectory>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <version>3.6.1</version>
+                    <extensions>true</extensions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <configuration>
+                    <sdk>
+                        <platform>15</platform>
+                        <path>${env.ANDROID_HOME}</path>
+                        <!-- IDEA: Settings -> Maven -> Runner
+                             Name  = android.sdk.path
+                             Value = <path to your android-sdk>
+                        -->
+                    </sdk>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <xmlOutput>true</xmlOutput>
+                    <xmlOutputDirectory>target/findbugs</xmlOutputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <sourceEncoding>utf-8</sourceEncoding>
+                    <outputDirectory>target/pmd</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>2.1</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>

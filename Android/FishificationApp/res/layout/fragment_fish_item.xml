@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ fragment_fish_item.xml
+  ~
+  ~ Copyright (c) 2013 Martin Burkhard.
+  ~ CSCM Cooperation Systems Center Munich, Institute for Software Technology.
+  ~ Bundeswehr University Munich. All rights reserved.
+  ~
+  ~ This program is made available under the terms of the
+  ~ Eclipse Public License v1.0 which accompanies this distribution,
+  ~ and is available at <http://www.eclipse.org/legal/epl-v10.html>.
+  ~
+  ~ The accompanying materials are made available under the terms
+  ~ of Creative Commons Attribution-ShareAlike 3.0 Unported License.
+  ~ You should have received a copy of the license along with this
+  ~ work.  If not, see <http://creativecommons.org/licenses/by-sa/3.0/>.
+  ~
+  ~  Project: FishificationFX
+  ~   Author: Martin Burkhard
+  ~     Date: 8/30/13 7:46 PM
+  -->
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:background="?android:attr/activatedBackgroundIndicator"
+        android:orientation="horizontal">
+
+    <ImageView
+            android:id="@+id/fish_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/fishImageDescription"/>
+
+    <TextView
+            android:id="@+id/fish_name"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginLeft="10dip"
+            />
+
+</LinearLayout>

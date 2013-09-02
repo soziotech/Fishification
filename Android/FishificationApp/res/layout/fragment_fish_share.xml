@@ -1,0 +1,64 @@
+<!--
+  ~ fragment_fish_share.xml
+  ~
+  ~ Copyright (c) 2013 Martin Burkhard.
+  ~ CSCM Cooperation Systems Center Munich, Institute for Software Technology.
+  ~ Bundeswehr University Munich. All rights reserved.
+  ~
+  ~ This program is made available under the terms of the
+  ~ Eclipse Public License v1.0 which accompanies this distribution,
+  ~ and is available at <http://www.eclipse.org/legal/epl-v10.html>.
+  ~
+  ~ The accompanying materials are made available under the terms
+  ~ of Creative Commons Attribution-ShareAlike 3.0 Unported License.
+  ~ You should have received a copy of the license along with this
+  ~ work.  If not, see <http://creativecommons.org/licenses/by-sa/3.0/>.
+  ~
+  ~  Project: FishificationFX
+  ~   Author: Martin Burkhard
+  ~     Date: 8/30/13 7:46 PM
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ui_sharefish_textview_contentToShare"
+            android:id="@+id/fishFormTextView"
+            android:layout_margin="6dip"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/flagTitleText"
+            android:singleLine="true"
+            android:hint="@string/FlagTitleHint"
+            android:maxLength="32"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:lines="5"
+            android:id="@+id/flagContentText"
+            android:hint="@string/FlagContentHint"
+            android:maxLength="128"/>
+
+
+    <Button
+            android:id="@+id/shareFishButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="@string/FishSend"
+            android:width="@dimen/shareFishButtonWidth"/>
+
+
+</LinearLayout>
+
