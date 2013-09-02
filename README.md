@@ -1,7 +1,7 @@
 Fishification
 =============
 
-![alt text](https://raw.github.com/soziotech/Fishification/master/screenshots/fishificationfx.png "FishificationFX")
+![alt text](https://raw.github.com/soziotech/Fishification/master/Screenshots/fishificationfx.png "FishificationFX")
 
 The Fishification aquarium application is designed to run on a large interactive screen in a community area. In order to keep the user interaction simple and to attract people that are passing by, the aquarium metaphor is used. The mobile Fishification App allows direct interaction of Smartphones and Tablet Computer with the AquariumApp. Fishification is developed at the [Cooperation Systems Center Munich (CSCM)](http://www.kooperationssysteme.de), [Institute for Software Technology](http://www.unibw.de/inf2/), [Bundeswehr University Munich](http://www.unibw.de). (Source: Maier et al. 2013)
 
